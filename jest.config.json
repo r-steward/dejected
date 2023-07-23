@@ -1,0 +1,30 @@
+{
+    "setupFilesAfterEnv": [
+        "jest-expect-message"
+    ],
+    "transform": {
+        "^.+\\.(t|j)sx?$": [
+            "ts-jest",
+            {
+                "tsconfig": "tsconfig.json"
+            }
+        ]
+    },
+    "testRegex": "/tests/(.*|(\\.|/))\\.(test|spec)\\.(jsx?|tsx?)$",
+    "modulePaths": [
+        "./src"
+    ],
+    "moduleNameMapper": {
+        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/mocks/file-mock.ts",
+        "\\.(css|less)$": "<rootDir>/tests/mocks/style-mock.ts"
+    },
+    "moduleFileExtensions": [
+        "js",
+        "json",
+        "jsx",
+        "node",
+        "ts",
+        "tsx"
+    ],
+    "preset": "ts-jest/presets/js-with-ts"
+}
