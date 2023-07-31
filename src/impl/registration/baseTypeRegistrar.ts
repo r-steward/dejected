@@ -2,6 +2,7 @@ import { Scope, Value } from "../../types/container";
 import { RegistrationCompleteError } from "../errors";
 import { Injection } from "../injection";
 import { ContainerRegistration } from "../scope/lifetimeScopeRegistration";
+import { RegistrationValidationMessages } from "../validation/validation";
 import { OwnedTypeRegistrar, TypeRegistrar } from "./scopeRegistrar";
 
 export abstract class BaseTypeRegistrar<T, TParent>
@@ -75,6 +76,7 @@ export abstract class BaseTypeRegistrar<T, TParent>
     }
   }
 
+  abstract validate(): RegistrationValidationMessages;
   abstract toRegistration(): ContainerRegistration<T>;
 
   checkInjectAfterDefault(): string {

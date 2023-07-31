@@ -1,13 +1,13 @@
-export type ContainerError = {
+export type RegistrationValidationMessages = {
     registrationToken: string;
     messages: string[];
 };
 export interface Validatable {
-    validate(): ContainerError;
+    validate(): RegistrationValidationMessages;
 }
-export declare const errorFilter: (e: ContainerError) => boolean;
-export declare const errorFromMessages: (registrationToken: string, ...errorStrings: string[]) => {
+export declare const msgFilter: (e: RegistrationValidationMessages) => boolean;
+export declare const createMessages: (registrationToken: string, ...errorStrings: string[]) => {
     registrationToken: string;
     messages: string[];
 };
-export declare const formatErrors: (errors: readonly ContainerError[]) => string;
+export declare const formatValidationMessages: (msgs: readonly RegistrationValidationMessages[]) => string;

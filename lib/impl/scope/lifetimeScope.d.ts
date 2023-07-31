@@ -3,12 +3,12 @@ import { ContainerRegistration } from "./lifetimeScopeRegistration";
 export interface LifetimeScope extends Disposable {
     resolveAtLifetime<T>(token: string): T;
 }
+export interface TraversableLifetimeScope {
+    resolveWithContext<T>(token: string, context: ResolutionContext): T;
+}
 export interface MutableLifetimeScope extends LifetimeScope {
     isDisposed: boolean;
     register<T>(registration: ContainerRegistration<T>): this;
-}
-export interface TraversableLifetimeScope {
-    resolveWithContext<T>(token: string, context: ResolutionContext): T;
 }
 export type LifetimeInstance<T = unknown> = {
     readonly registrationToken: string;

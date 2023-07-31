@@ -3,6 +3,7 @@ import { ContainerRegistration } from "./lifetimeScopeRegistration";
 export declare class LifetimeScopeNode implements TraversableLifetimeScope, MutableLifetimeScope {
     private readonly parentScope;
     private _isDisposed;
+    readonly id: string;
     private readonly registrations;
     private readonly scopeTransients;
     private readonly scopeSingletons;

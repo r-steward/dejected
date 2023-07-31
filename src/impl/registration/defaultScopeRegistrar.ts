@@ -1,5 +1,6 @@
 import { Class, Factory, Value } from "../../types/container";
 import { MutableLifetimeScope } from "../scope/lifetimeScope";
+import { RegistrationValidationMessages } from "../validation/validation";
 import { ClassTypeRegistrar } from "./classTypeRegistrar";
 import { FactoryTypeRegistrar } from "./factoryTypeRegistrar";
 import {
@@ -14,6 +15,10 @@ export class DefaultScopeRegistrar<TParent> implements ScopeRegistrar<TParent> {
     protected readonly lifetimeScope: MutableLifetimeScope
   ) {}
 
+  private readonly validation: Map<
+    string,
+    RegistrationValidationMessages
+  > = new Map();
   private currentType: ScopeTypeRegistrar<unknown, TParent>;
 
   registerClass<T>(token: string, clazz: Class<T>): TypeRegistrar<TParent> {
@@ -21,6 +26,7 @@ export class DefaultScopeRegistrar<TParent> implements ScopeRegistrar<TParent> {
       new ClassTypeRegistrar(this.parent, token, clazz)
     );
   }
+
   registerFactory<T>(
     token: string,
     factory: Factory<T>
@@ -29,11 +35,33 @@ export class DefaultScopeRegistrar<TParent> implements ScopeRegistrar<TParent> {
       new FactoryTypeRegistrar(this.parent, token, factory)
     );
   }
+
   registerInstance<T extends object>(token: string, instance: T): TParent {
     return this._setInstance(token, instance);
   }
+
   registerValue(token: string, value: Value): TParent {
     return this._setValue(token, value);
+  }
+
+  setCurrentRegistrationToScope() {
+    if (this.currentType) {
+      this.currentType.complete();
+      this.addValidation(this.currentType.validate());
+      this.lifetimeScope.register(this.currentType.toRegistration());
+      this.currentType = null;
+    }
+  }
+
+  addValidation(msg: RegistrationValidationMessages): this {
+    if (msg) {
+      if (msg.messages?.length > 0) {
+        this.validation.set(msg.registrationToken, msg);
+      } else {
+        this.validation.delete(msg.registrationToken);
+      }
+    }
+    return this;
   }
 
   private _setCurrentRegistrar<T>(
@@ -63,12 +91,5 @@ export class DefaultScopeRegistrar<TParent> implements ScopeRegistrar<TParent> {
       value
     });
     return this.parent;
-  }
-
-  public setCurrentRegistrationToScope() {
-    if (this.currentType) {
-      this.lifetimeScope.register(this.currentType.toRegistration());
-      this.currentType = null;
-    }
   }
 }

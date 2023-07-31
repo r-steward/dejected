@@ -1,6 +1,7 @@
 import { Scope, Value } from "../../types/container";
 import { Injection } from "../injection";
 import { ContainerRegistration } from "../scope/lifetimeScopeRegistration";
+import { RegistrationValidationMessages } from "../validation/validation";
 import { OwnedTypeRegistrar, TypeRegistrar } from "./scopeRegistrar";
 export declare abstract class BaseTypeRegistrar<T, TParent> implements OwnedTypeRegistrar<T>, TypeRegistrar<TParent> {
     protected readonly parent: TParent;
@@ -22,6 +23,7 @@ export declare abstract class BaseTypeRegistrar<T, TParent> implements OwnedType
     withScope(scope: Scope): TParent;
     complete(): void;
     protected checkNotCompleted(): void;
+    abstract validate(): RegistrationValidationMessages;
     abstract toRegistration(): ContainerRegistration<T>;
     checkInjectAfterDefault(): string;
     checkArgLength(expected: number): string;

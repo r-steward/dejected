@@ -1,14 +1,16 @@
-export type ContainerError = {
+export type RegistrationValidationMessages = {
   registrationToken: string;
   messages: string[];
 };
 
 export interface Validatable {
-  validate(): ContainerError;
+  validate(): RegistrationValidationMessages;
 }
-export const errorFilter = (e: ContainerError) => e?.messages?.length > 0;
 
-export const errorFromMessages = (
+export const msgFilter = (e: RegistrationValidationMessages) =>
+  e?.messages?.length > 0;
+
+export const createMessages = (
   registrationToken: string,
   ...errorStrings: string[]
 ) => {
@@ -21,8 +23,10 @@ export const errorFromMessages = (
     : null;
 };
 
-export const formatErrors = (errors: readonly ContainerError[]) => {
-  const es = errors?.filter(errorFilter) ?? [];
+export const formatValidationMessages = (
+  msgs: readonly RegistrationValidationMessages[]
+) => {
+  const es = msgs?.filter(msgFilter) ?? [];
   const formatted = es
     .map(e => `${e.registrationToken}:\n${e.messages.join("\n")}`)
     .join("\n");

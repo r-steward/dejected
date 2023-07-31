@@ -1,6 +1,7 @@
 import { Disposable } from "../../types/disposable";
 import { DisposedError, ResolveError } from "../errors";
 import { isTokenInjection } from "../injection";
+import { RegistrationValidationMessages } from "../validation/validation";
 import {
   MutableLifetimeScope,
   ResolutionContext,
@@ -17,7 +18,7 @@ import {
 export class LifetimeScopeNode
   implements TraversableLifetimeScope, MutableLifetimeScope {
   private _isDisposed: boolean;
-
+  public readonly id: string;
   private readonly registrations: Map<
     string,
     ContainerRegistration

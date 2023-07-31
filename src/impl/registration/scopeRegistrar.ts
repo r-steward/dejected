@@ -1,5 +1,6 @@
 import { Class, Factory, Instance, Scope, Value } from "../../types/container";
 import { ContainerRegistration } from "../scope/lifetimeScopeRegistration";
+import { RegistrationValidationMessages } from "../validation/validation";
 
 export interface TypeRegistrar<TParent> {
   inject(token: string): this;
@@ -11,6 +12,7 @@ export interface TypeRegistrar<TParent> {
 }
 
 export interface OwnedTypeRegistrar<T> {
+  validate(): RegistrationValidationMessages;
   complete(): void;
   toRegistration(): ContainerRegistration<T>;
 }

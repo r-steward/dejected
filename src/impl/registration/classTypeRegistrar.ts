@@ -1,6 +1,9 @@
 import { Class } from "../../types/container";
 import { ContainerRegistration } from "../scope/lifetimeScopeRegistration";
-import { ContainerError, errorFromMessages } from "../validation/validation";
+import {
+  RegistrationValidationMessages,
+  createMessages
+} from "../validation/validation";
 import { BaseTypeRegistrar } from "./baseTypeRegistrar";
 
 export class ClassTypeRegistrar<T, TParent> extends BaseTypeRegistrar<
@@ -26,8 +29,8 @@ export class ClassTypeRegistrar<T, TParent> extends BaseTypeRegistrar<
     };
   }
 
-  validate(): ContainerError {
-    return errorFromMessages(
+  validate(): RegistrationValidationMessages {
+    return createMessages(
       this.registrationToken,
       super.checkArgLength(this.clazz.length),
       super.checkInjectAfterDefault()

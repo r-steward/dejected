@@ -1,6 +1,5 @@
 import { Class, Container, Factory, Value } from "../../types/container";
 import { DefaultScopeRegistrar } from "../registration/defaultScopeRegistrar";
-import { ScopeRegistrar, TypeRegistrar } from "../registration/scopeRegistrar";
 import { LifetimeScopeNode } from "../scope/lifetimeScopeNode";
 import { ParentContainer } from "./parentContainer";
 
@@ -40,7 +39,13 @@ export class IocContainer implements ParentContainer, Container {
   }
 
   createChild(): Container {
-    return new IocContainer(this, new LifetimeScopeNode(this.lifetimeScope));
+    this.scopeRegistrar.setCurrentRegistrationToScope();
+    const child = new IocContainer(
+      this,
+      new LifetimeScopeNode(this.lifetimeScope)
+    );
+    this.children.add(child);
+    return child;
   }
 
   validate(): void {

@@ -1,7 +1,7 @@
 # dejected
 
-Straight forward dependency injection.
-No need to change existing code, or turn on annotations.
-Supports multiple lifetime scoping disposal.
+* Straight forward dependency injection
+* No need to change existing code
+* Lifetime scoped containers for robust resource management
 
-### Lifetime Scopes
+### lifetime scopes

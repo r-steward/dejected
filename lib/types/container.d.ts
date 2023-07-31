@@ -10,7 +10,6 @@ export interface ResolveContainer {
 }
 export interface ReadContainer extends ResolveContainer {
     createChild(): Container;
-    validate(): void;
 }
 export interface Container extends ReadContainer, Disposable, ScopeRegistrar<Container> {
 }

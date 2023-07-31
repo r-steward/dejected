@@ -1,7 +1,12 @@
-import { ContainerError, errorFilter } from "./validation/validation";
+import {
+  RegistrationValidationMessages,
+  msgFilter
+} from "./validation/validation";
 
-export const formatErrors = (errors: readonly ContainerError[]) => {
-  const es = errors?.filter(errorFilter) ?? [];
+export const formatErrors = (
+  errors: readonly RegistrationValidationMessages[]
+) => {
+  const es = errors?.filter(msgFilter) ?? [];
   const formatted = es
     .map(e => `${e.registrationToken}:\n${e.messages.join("\n")}`)
     .join("\n");
@@ -28,7 +33,7 @@ export class RegistrationCompleteError extends DejectedError {
 
 // tslint:disable-next-line:max-classes-per-file
 export class ValidationError extends DejectedError {
-  constructor(error: readonly ContainerError[]) {
+  constructor(error: readonly RegistrationValidationMessages[]) {
     super(formatErrors(error));
   }
 }
